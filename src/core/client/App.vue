@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <MarkDisplay :markdown="content" @title="setTitle" autoBaseUrl autoBlankTarget autoFontSize keyboardCtrl urlHashCtrl supportPreview />
+    <MarkDisplay :markdown="content" :enhancer="enhancerGenerator()" @title="setTitle" autoBaseUrl autoBlankTarget autoFontSize keyboardCtrl urlHashCtrl supportPreview />
   </div>
 </template>
 
 <script>
-import MarkDisplay from 'vue-mark-display'
+import MarkDisplay from './components/vue-mark-display/stage.vue'
 import content from './.temp/ppt.md'
-// const content = `<TEMPLATE_CONTENT>`
-console.log(content)
+import config from "./.temp/vslide.config.js"
+
+const markdown = config.markdown || null 
 
 export default {
   components: { MarkDisplay },
   data() {
     return {
-      content
+      content,
     }
   },
   methods: {
@@ -22,6 +23,9 @@ export default {
       setTimeout(() => {
         document.title = title || "My Slides"
       })
+    },
+    enhancerGenerator() {
+      return markdown
     }
   }
 }

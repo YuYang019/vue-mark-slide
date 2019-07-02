@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser should enhance marked 1`] = `
+"
+          <h1>
+            <a name=\\"head\\" class=\\"anchor\\" href=\\"#head\\">
+              <span class=\\"header-link\\"></span>
+            </a>
+            head
+          </h1>"
+`;

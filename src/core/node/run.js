@@ -2,6 +2,7 @@ const chokidar = require('chokidar')
 const fs = require('fs-extra')
 const globby = require('globby')
 const path = require('path')
+const chalk = require('chalk')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
@@ -24,11 +25,13 @@ module.exports = class RunProcess {
   }
 
   async process() {
-    this.watchFile()
-    await this.resolvePort()
-    await this.resolveHost()
     this.prepareWebpackConfig()
-    await this.copyFile()
+    await Promise.all([
+      this.watchFile(),
+      this.watchAssets(),
+      this.resolveHost(),
+      this.resolvePort()
+    ])
   }
 
   async resolvePort() {
@@ -43,39 +46,73 @@ module.exports = class RunProcess {
     this.webpackConfig = require('../webpack/webpack.config.js')
   }
 
-  async copyFile() {
-    const { tempPath, filePath } = this.context
-    const dest = path.resolve(tempPath, 'ppt.md')
-    await fs.copy(filePath, dest)
+  // async copyFile() {
+  //   const { tempPath, filePath } = this.context
+  //   const dest = path.resolve(tempPath, 'ppt.md')
+  //   await fs.copy(filePath, dest)
   
-    const dirPath = path.dirname(filePath)
-    const filename = path.parse(filePath).name
+  //   const dirPath = path.dirname(filePath)
+  //   const filename = path.parse(filePath).name
 
-    const asserts = await globby(['**/*', `!${filename}.md`, '!node_modules'], { cwd: dirPath })
-    await Promise.all(asserts.map(async (name) => {
-      const from = path.resolve(dirPath, name)
-      const to = path.join(tempPath, name)
-      await fs.copy(from, to)
-    }))
-  }
+  //   const assets = await globby(['**/*', `!${filename}.md`, '!node_modules'], { cwd: dirPath })
+  //   await Promise.all(assets.map(async (name) => {
+  //     const from = path.resolve(dirPath, name)
+  //     const to = path.join(tempPath, name)
+  //     await fs.copy(from, to)
+  //   }))
+  // }
 
-  watchFile() {
+  async watchFile() {
     const { filePath } = this.context
     const watcher = chokidar.watch(filePath)
 
-    watcher.on('unlink', target => this.handleUpate('unlink', target))
-    watcher.on('change', target => this.handleUpate('change', target))
+    watcher.on('add', async target => await this.handleUpate('add', target, 'source'))
+    watcher.on('unlink', async target => await this.handleUpate('unlink', target, 'source'))
+    watcher.on('change', async target => await this.handleUpate('change', target, 'source'))
   }
 
-  async handleUpate(type, target) {
+  async watchAssets() {
+    const { dirPath, filename } = this.context
+    const watcher = chokidar.watch(['**/*', `!${filename}.md`, '!.DS_Store', '!node_modules'], { cwd: dirPath })
+
+    watcher.on('unlink', async target => await this.handleUpate('unlink', target, 'assets'))
+    watcher.on('add', async target => await this.handleUpate('add', target, 'assets'))
+  }
+
+  async handleUpate(type, target, from) {
+    const { tempPath, dirPath, filePath } = this.context
+ 
     if (type === 'unlink') {
-      console.log('文件被删除')
-      process.exit(-1)
+      if (from === 'source') {
+        logger.error('源文件被删除', chalk.red(target))
+        process.exit(-1)
+      } else if (from === 'assets') {
+        logger.debug(`静态文件被删除: ${chalk.red(target)}`)
+        const dest = path.join(tempPath, target)
+        logger.debug('dest path', dest)
+        await fs.remove(dest)
+      }
     } else if (type === 'change') {
-      logger.tip(`reload due to ${target}`)
-      const { tempPath } = this.context
-      const dest = path.join(tempPath, 'ppt.md')
-      await fs.copy(target, dest)
+      if (from === 'source') {
+        logger.tip(`源文件变动: ${chalk.cyan(target)}`)
+        const dest = path.join(tempPath, 'ppt.md')
+        logger.debug('dest path', dest)
+        await fs.remove(dest)
+        await fs.copy(filePath, dest)
+      }
+    } else if (type === 'add') {
+      if (from === 'assets') {
+        logger.debug(`静态文件被添加: ${chalk.cyan(target)}`)
+        const src = path.join(dirPath, target)
+        const dest = path.join(tempPath, target)
+        logger.debug('dest path', dest)
+        await fs.copy(src, dest)
+      } else if (from === 'source') {
+        logger.debug(`源文件被添加: ${chalk.cyan(target)}`)
+        const dest = path.join(tempPath, 'ppt.md')
+        logger.debug('dest path', dest)
+        await fs.copy(filePath, dest)
+      }
     }
   }
 
@@ -110,11 +147,17 @@ module.exports = class RunProcess {
     return this
   }
 
-  listen() {
+
+  
+  listen(){
     this.server.listen(this.port, this.host, (err) => {
-      if (err) { throw new Error(err) } else {logger.success('运行成功,请访问:', `${this.host}:${this.port}`)
+      if (err) { 
+        throw new Error(err) 
+      } else {
+        logger.success('服务启动成功,请访问:', chalk.blue(`${this.host}:${this.port}`))
       }
     })
+
     return this
   }
 }

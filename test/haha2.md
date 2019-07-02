@@ -1,6 +1,10 @@
+<!-- color: red; -->
+<!-- style: font-weight: bold; background: #efefef;  -->
+
 # Hello World
+
 ----
-This is Vue Mark Display
+This is Vue Mark Display gvgsada
 
 ----
 what the fuck is  [baidu](https://www.baidu.com)
@@ -14,7 +18,10 @@ what the fuck is  [baidu](https://www.baidu.com)
 
   <div class="right">
     <pre>
-      <code>const b = 1</code>
+      <code>
+        const b = 1
+        function fn () {  return 1 }
+      </code>
     </pre>
   </div>
 </div>
@@ -23,20 +30,23 @@ what the fuck is  [baidu](https://www.baidu.com)
 <style>
   .show {
     display: flex;
-    font-size: 24px;
+    font-size: 16px;
   }
 </style>
 
 ```js
 const a = 1
+const b = 2
+function fn() {
+  return 1
+}
 ```
-
 
 ----
 
 这是我最喜欢的图片
 
-![img](./source/test.png)
+![img](./static/test.png)
 
 ----
 

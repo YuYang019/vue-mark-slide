@@ -7,9 +7,9 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "commit": "git add . && git-cz && npm run changelog",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && npm run commit"
   },
   "lint-staged": {
     "*.js": [
@@ -25,6 +25,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "cac": "^6.5.2",
     "chalk": "^2.4.2",
     "chokidar": "^3.0.1",
@@ -38,16 +42,18 @@
     "eslint-plugin-vue-libs": "^3.0.0",
     "fs-extra": "^8.0.1",
     "globby": "^9.2.0",
+    "highlight.js": "^9.15.8",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.5.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
     "lru-cache": "^5.1.1",
+    "markdown-it": "^8.4.2",
+    "marked": "^0.6.3",
     "portfinder": "^1.0.20",
-    "standard-version": "^6.0.1",
+    "prettier": "^1.18.2",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
-    "vue-mark-display": "^0.1.3",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0",
     "webpack-chain": "^6.0.0",
