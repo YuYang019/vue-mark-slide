@@ -1,9 +1,9 @@
 {
-  "name": "vue-ppt",
+  "name": "vue-mark-slide",
   "version": "1.0.0",
   "description": "",
   "bin": {
-    "vppt": "./src/cli/index.js"
+    "vslide": "./src/cli/index.js"
   },
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     }
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
@@ -42,20 +42,22 @@
     "eslint-plugin-vue-libs": "^3.0.0",
     "fs-extra": "^8.0.1",
     "globby": "^9.2.0",
-    "highlight.js": "^9.15.8",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.5.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
     "lru-cache": "^5.1.1",
     "marked": "^0.6.3",
+    "normalize.css": "^8.0.1",
     "portfinder": "^1.0.20",
     "prettier": "^1.18.2",
+    "prismjs": "^1.16.0",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0",
     "webpack-chain": "^6.0.0",
     "webpack-dev-server": "^3.7.2"
-  }
+  },
+  "dependencies": {}
 }

@@ -6,10 +6,10 @@
 
 <script>
 import MarkDisplay from './components/vue-mark-display/stage.vue'
-import content from './.temp/ppt.md'
-import config from "./.temp/vslide.config.js"
+import content from '@internal/ppt.md'
+import config from '@internal/vslide.config.js'
 
-const markdown = config.markdown || null 
+const markdownEnhancer = config.markdown || null 
 
 export default {
   components: { MarkDisplay },
@@ -25,7 +25,7 @@ export default {
       })
     },
     enhancerGenerator() {
-      return markdown
+      return markdownEnhancer
     }
   }
 }

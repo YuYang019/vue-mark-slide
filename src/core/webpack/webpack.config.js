@@ -42,6 +42,11 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      '@internal': path.resolve(__dirname, '../client/.temp'),
+    },
+  },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({

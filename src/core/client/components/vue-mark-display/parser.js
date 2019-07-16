@@ -1,12 +1,17 @@
-const marked = require("marked")
-const { highlight } = require("./highlight")
+const marked = require('marked')
+const highlight = require('./highlight')
+const logger = require('../../../utils/logger')
 
 marked.setOptions({
   highlight
-});
+})
 
 exports.enhanceMarked = (fn) => {
-  fn(marked)
+  if (typeof fn === 'function') {
+    fn(marked)
+  } else {
+    logger.error('you must pass a function to enhanceMarked')
+  }
 }
 
 exports.parseForTest = (code) => {
@@ -16,7 +21,7 @@ exports.parseForTest = (code) => {
 exports.parse = code => {
   const tokens = marked.lexer(code);
   const slides = splitTokens(tokens);
-  console.log(marked.defaults)
+  console.log(slides)
   return slides;
 };
 

@@ -1,13 +1,6 @@
-const fs = require('fs-extra')
-const path = require('path')
+const { getFragment } = require('./utils')
 
 const { parse, enhanceMarked, parseForTest } = require('../parser')
-// const parser2 = require('../parser2')
-
-function getFragment(name) {
-  const file = path.join(__dirname, 'fragments', name)
-  return fs.readFileSync(file, 'utf-8')
-}
 
 describe('parser', () => {
   const code = getFragment('ppt.md')
@@ -29,6 +22,8 @@ describe('parser', () => {
     expect(output[1]).toHaveProperty('meta')
     expect(output[1]).not.toHaveProperty('meta.type')
     expect(output[1]).toHaveProperty('meta.title', 'this is content')
+    expect(output[1]).toHaveProperty('meta.color', 'red')
+    expect(output[1]).toHaveProperty('meta.style', 'font-weight: bold; font-size: 12px')
     expect(output[1]).toHaveProperty('tokens')
   })
 

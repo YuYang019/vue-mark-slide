@@ -1,7 +1,18 @@
-let highlighter;
+const Prism = require('prismjs')
 
-exports.setHighlighter = func => (highlighter = func);
+function wrap(code, lang) {
+    return `<pre class="language-${lang}"><code>${code}</code></pre>`
+}
 
-exports.highlight = (code, lang) => {
-  return typeof highlighter === "function" ? highlighter(code, lang) : code;
-};
+module.exports = function highlight(code, lang) {
+
+    if (lang === 'js') {
+        lang = 'javascript'
+    } else {
+        lang = 'markup'
+    }
+
+    const html = Prism.highlight(code, Prism.languages[lang], lang)
+
+    return wrap(html, lang)
+}

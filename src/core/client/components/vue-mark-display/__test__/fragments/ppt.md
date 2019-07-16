@@ -1,5 +1,6 @@
 # Hello world
 ----
+<!-- color: red -->
 <!-- style: font-weight: bold; font-size: 12px -->
 this is content
 

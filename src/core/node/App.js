@@ -13,7 +13,12 @@ module.exports = class App {
 
     if (!/\.md$/.test(file)) {
       logger.error('文件格式错误，请输入markdown格式的文件')
-      process.exit(-1)
+      process.exit(1)
+    }
+
+    if (!fs.existsSync(this.filePath)) {
+      logger.error(`${this.filename}.md`, '该文件不存在')
+      process.exit(1)
     }
   
     // 文件所在文件夹路径
