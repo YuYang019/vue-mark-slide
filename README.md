@@ -1,5 +1,7 @@
 # vue-mark-slide
 
+![travis-ci](https://travis-ci.org/maoyuyang/vue-slide.svg?branch=master)
+
 基于 `Markdown` 语法的开箱即用的幻灯片书写工具
 
 based on [vue-mark-display](https://github.com/Jinjiang/vue-mark-display/tree/ac2ae0271cca65db6d30c585f53d32f8248547d6)
