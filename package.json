@@ -25,7 +25,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "author": "",
+  "author": "maoyuyang",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.5",

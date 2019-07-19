@@ -1,8 +1,9 @@
 const execa = require('execa')
 const semver = require('semver')
 const inquirer = require('inquirer')
+const pkg = require('../package.json')
 
-const curVersion = require('../package.json').version
+const curVersion = pkg.version
 
 const release = async () => {
   console.log(`Current version: ${curVersion}`)
@@ -65,6 +66,7 @@ const release = async () => {
   })
   await execa('git', ['push'], { stdio: 'inherit' })
 
+  await execa('npm', ['version', version], { stdio: 'inherit' })
   await execa('npm', ['publish', '--tag', 'npmTag'], { stdio: 'inherit' })
 }
 
