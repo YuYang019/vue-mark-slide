@@ -1,6 +1,9 @@
 # vue-mark-slide
 
 ![travis-ci](https://travis-ci.org/maoyuyang/vue-slide.svg?branch=master)
+![version](https://img.shields.io/npm/v/vue-mark-slide.svg)
+![license](https://img.shields.io/npm/l/vue-mark-slide.svg)
+
 
 基于 `Markdown` 语法的开箱即用的幻灯片书写工具
 
@@ -16,7 +19,19 @@ based on [vue-mark-display](https://github.com/Jinjiang/vue-mark-display/tree/ac
 
 ## 基本用法
 
-基于 `vue-mark-display` 扩展了一些语法
+```
+npm install -g vue-mark-slide
+```
+
+```
+echo '# Hello World' > ppt.md
+```
+
+```
+vslide run ppt.md
+```
+
+## markdown文件示例
 
 - 使用 `----` 作为页面的分隔符
 - 可以使用 `<!-- -->` 在每页插入自定义样式 ( 目前支持6种属性 `background` ,
@@ -49,12 +64,6 @@ you can insert html directly    // page 3
         color: red;
     }
 </style>
-
-```
-
-```
-npm install -g vue-mark-slide
-vslide run ppt.md
 ```
 
 ## 进阶
