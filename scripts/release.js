@@ -70,6 +70,7 @@ const release = async () => {
   // git push
   await execa('git', ['push'], { stdio: 'inherit' })
 
+  // 最后执行发布
   await execa('npm', ['publish', '--tag', npmTag], { stdio: 'inherit' })
 }
 
