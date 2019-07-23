@@ -64,12 +64,6 @@ const release = async () => {
     return
   }
 
-  // generate changelog and commit
-  await execa('npm', ['run', 'changelog'])
-  await execa('git', ['add', '.'], { stdio: 'inherit' })
-  await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
-    stdio: 'inherit'
-  })
   // npm version 如果运行在一个 git repo 下，会产生一个 commit
   await execa(
     'npm',
@@ -81,6 +75,13 @@ const release = async () => {
 
   // 最后执行发布
   await execa('npm', ['publish', '--tag', npmTag], { stdio: 'inherit' })
+
+  // generate changelog and commit
+  await execa('npm', ['run', 'changelog'])
+  await execa('git', ['add', '.'], { stdio: 'inherit' })
+  await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
+    stdio: 'inherit'
+  })
 }
 
 release().catch(err => {
