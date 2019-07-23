@@ -1,6 +1,6 @@
 /**
  * release 脚本
- * 发布新版本的时候，请保证这段时间有除了 chore 之外的 commit 并 push 到了主干上
+ * 发布新版本的时候，请保证这段时间有除了 chore 之外的 commit
  */
 
 const execa = require('execa')
@@ -65,27 +65,18 @@ const release = async () => {
   }
 
   // npm version 如果运行在一个 git repo 下，会产生一个 commit
-  await execa(
-    'npm',
-    ['version', version, '--message', `release: release ${version}`],
-    { stdio: 'inherit' }
-  )
+  await execa('npm', ['version', version], { stdio: 'inherit' })
+  // generate changelog and commit
+  await execa('npm', ['run', 'changelog'])
+  await execa('git', ['add', '.'], { stdio: 'inherit' })
+  await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
+    stdio: 'inherit'
+  })
   // git push
   await execa('git', ['push'], { stdio: 'inherit' })
 
   // 最后执行发布
   await execa('npm', ['publish', '--tag', npmTag], { stdio: 'inherit' })
-
-  // generate changelog and commit
-  try {
-    await execa('npm', ['run', 'changelog'])
-    await execa('git', ['add', '.'], { stdio: 'inherit' })
-    await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
-      stdio: 'inherit'
-    })
-  } catch (e) {
-    process.exit(1)
-  }
 }
 
 release().catch(err => {
