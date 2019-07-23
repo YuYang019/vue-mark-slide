@@ -1,6 +1,6 @@
 {
   "name": "vue-mark-slide",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "bin": {
     "vslide": "./src/cli/index.js"
