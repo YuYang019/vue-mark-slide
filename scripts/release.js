@@ -71,7 +71,11 @@ const release = async () => {
     stdio: 'inherit'
   })
   // npm version 如果运行在一个 git repo 下，会产生一个 commit
-  await execa('npm', ['version', version], { stdio: 'inherit' })
+  await execa(
+    'npm',
+    ['version', version, '--message', `release: release ${version}`],
+    { stdio: 'inherit' }
+  )
   // git push
   await execa('git', ['push'], { stdio: 'inherit' })
 
