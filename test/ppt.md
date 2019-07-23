@@ -6,7 +6,7 @@
 ----
 <!-- color: #000; -->
 
-This is Vue-Slide based on vue-display-marked
+This is Vue-Mark-Slide based on vue-display-marked
 
 ----
 
@@ -18,7 +18,7 @@ const b = 2
 const c = 3
 const d = 4
 
-function fn() {       
+function fn() {
   return 1
 }
 ```
@@ -38,7 +38,7 @@ here is baidu [baidu](https://www.baidu.com)
 
 可爱的猫
 
-![img](./static/test.png)
+![img](./assets/test.png)
 
 ----
 

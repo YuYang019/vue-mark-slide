@@ -6,7 +6,7 @@ marked.setOptions({
   highlight
 })
 
-exports.enhanceMarked = (fn) => {
+exports.enhanceMarked = fn => {
   if (typeof fn === 'function') {
     fn(marked)
   } else {
@@ -14,53 +14,52 @@ exports.enhanceMarked = (fn) => {
   }
 }
 
-exports.parseForTest = (code) => {
+exports.parseForTest = code => {
   return marked.parse(code)
 }
 
 exports.parse = code => {
-  const tokens = marked.lexer(code);
-  const slides = splitTokens(tokens);
-  console.log(slides)
-  return slides;
-};
+  const tokens = marked.lexer(code)
+  const slides = splitTokens(tokens)
+  return slides
+}
 
 function splitTokens(tokens) {
-  const slides = [];
-  let current = createSlide();
+  const slides = []
+  let current = createSlide()
   tokens.forEach(token => {
-    if (token.type === "hr") {
-      resolveSlide(current);
-      slides.push(current);
-      current = createSlide();
+    if (token.type === 'hr') {
+      resolveSlide(current)
+      slides.push(current)
+      current = createSlide()
     } else {
-      if (token.type === "html") {
+      if (token.type === 'html') {
         const kvPair = token.text.match(
           /\<\!\-\-\s*(\S+)\s*\:\s*([\S\s]+?)\s*\-\-\>/
-        );
+        )
         if (kvPair) {
-          current.meta[kvPair[1]] = kvPair[2];
-          return;
+          current.meta[kvPair[1]] = kvPair[2]
+          return
         } else {
-          const flag = token.text.match(/\<\!\-\-\s*(\S+)\s*\-\-\>/);
+          const flag = token.text.match(/\<\!\-\-\s*(\S+)\s*\-\-\>/)
           if (flag) {
-            current.meta[flag[1]] = "";
-            return;
+            current.meta[flag[1]] = ''
+            return
           }
         }
       }
-      current.tokens.push(token);
+      current.tokens.push(token)
     }
-  });
+  })
   if (current.tokens.length) {
-    resolveSlide(current);
-    slides.push(current);
+    resolveSlide(current)
+    slides.push(current)
   }
-  return slides;
+  return slides
 }
 
 function resolveSlide(slide) {
-  const { meta, tokens } = slide;
+  const { meta, tokens } = slide
 
   // style
   const {
@@ -70,62 +69,62 @@ function resolveSlide(slide) {
     color,
     style,
     stageBackground
-  } = meta;
+  } = meta
   meta.slideStyle = [
-    background ? `background: ${background}` : "",
-    backgroundColor ? `background-color: ${backgroundColor}` : "",
-    backgroundImage ? `background-image: url(${backgroundImage})` : "",
-    color ? `color: ${color}` : "",
+    background ? `background: ${background}` : '',
+    backgroundColor ? `background-color: ${backgroundColor}` : '',
+    backgroundImage ? `background-image: url(${backgroundImage})` : '',
+    color ? `color: ${color}` : '',
     style
   ]
     .filter(Boolean)
-    .join("; ");
-  meta.bgStyle = stageBackground || "";
+    .join('; ')
+  meta.bgStyle = stageBackground || ''
 
   // first token
-  const firstToken = findFirstTextToken(tokens);
+  const firstToken = findFirstTextToken(tokens)
   if (firstToken.token) {
     // cover
     if (
       !meta.type &&
-      firstToken.token.type === "heading" &&
+      firstToken.token.type === 'heading' &&
       firstToken.token.depth === 1
     ) {
-      meta.type = "cover";
+      meta.type = 'cover'
     }
 
     // title
-    if (!meta.title) meta.title = firstToken.text;
+    if (!meta.title) meta.title = firstToken.text
   }
 
-  const html = marked.parser(tokens);
-  slide.html = html;
+  const html = marked.parser(tokens)
+  slide.html = html
 }
 
 function createSlide() {
-  const slide = { meta: {}, tokens: [], html: "" };
-  slide.tokens.links = {};
-  return slide;
+  const slide = { meta: {}, tokens: [], html: '' }
+  slide.tokens.links = {}
+  return slide
 }
 
 function findFirstTextToken(tokens) {
-  const result = {};
+  const result = {}
   tokens.some(token => {
-    const text = parseText(token.text || "");
+    const text = parseText(token.text || '')
     if (text) {
-      result.token = token;
-      result.text = text;
-      return true;
+      result.token = token
+      result.text = text
+      return true
     }
-  });
-  return result;
+  })
+  return result
 }
 
 function parseText(text) {
   return text
-    .replace(/<\!\-\-(.|\s)*\-\-\>/g, "")
-    .replace(/\!\[([^\]]*)\]\([^\)]*\)/g, "$1")
-    .replace(/\[[^\]]*\]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/<\!\-\-(.|\s)*\-\-\>/g, '')
+    .replace(/\!\[([^\]]*)\]\([^\)]*\)/g, '$1')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 }

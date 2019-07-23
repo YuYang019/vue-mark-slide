@@ -164,6 +164,7 @@ export default {
         document.head.removeChild(baseElement);
       } else {
         const baseHref = finalBaseUrl || defaultBaseHref;
+        console.log(baseHref, baseElement)
         if (baseHref) {
           baseElement.setAttribute("href", baseHref);
         } else {
