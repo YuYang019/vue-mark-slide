@@ -10,6 +10,11 @@
 based on [vue-mark-display](https://github.com/Jinjiang/vue-mark-display/tree/ac2ae0271cca65db6d30c585f53d32f8248547d6)
 
 
+## preview
+
+![demo](./demo.gif)
+
+
 ## 特性
 
 - 开箱即用
