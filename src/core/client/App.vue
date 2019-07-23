@@ -24,58 +24,58 @@ import content from '@internal/ppt.md'
 import config from '@internal/vslide.config.js'
 
 const defaultOpts = {
-  src: '',
-  page: 1,
-  baseUrl: '',
-  // whether use `src` as the `baseUrl` automatically
-  autoBaseUrl: true,
-  // whether open links in a blank target by default
-  autoBlankTarget: true,
-  // whether adjust font-size to adapt the screen size
-  autoFontSize: true,
-  // whether support keyboard shortcuts (Arrows, Enter, Ctrl+G)
-  keyboardCtrl: true,
-  // whether update URL hash when page changed
-  urlHashCtrl: true,
-  // support opening an iframe on top of the page to preview a URL
-  // when click the `<a>` link with `altKey` pressed
-  supportPreview: true,
-  markdown: null
+    src: '',
+    page: 1,
+    baseUrl: '',
+    // whether use `src` as the `baseUrl` automatically
+    autoBaseUrl: true,
+    // whether open links in a blank target by default
+    autoBlankTarget: true,
+    // whether adjust font-size to adapt the screen size
+    autoFontSize: true,
+    // whether support keyboard shortcuts (Arrows, Enter, Ctrl+G)
+    keyboardCtrl: true,
+    // whether update URL hash when page changed
+    urlHashCtrl: true,
+    // support opening an iframe on top of the page to preview a URL
+    // when click the `<a>` link with `altKey` pressed
+    supportPreview: true,
+    markdown: null
 }
 const options = { ...defaultOpts, ...config }
 
 export default {
-  components: { MarkDisplay },
-  data() {
-    return {
-      content,
-      options: { ...options }
-    }
-  },
-  methods: {
-    setTitle({ title }) {
-      setTimeout(() => {
-        document.title = title || "My Slides"
-      })
+    components: { MarkDisplay },
+    data() {
+        return {
+            content,
+            options: { ...options }
+        }
     },
-  },
-  mounted() {
-    const mc = new Hammer(this.$el)
-    const main = this.$refs.main
-    mc.on("swipe", event => {
-      if (event.pointerType === 'mouse') {
-        return
-      }
-      switch (event.direction) {
-        case Hammer.DIRECTION_LEFT:
-          main.goNext()
-          return
-        case Hammer.DIRECTION_RIGHT:
-          main.goPrev()
-          return
-      }
-    })
-  }
+    methods: {
+        setTitle({ title }) {
+            setTimeout(() => {
+                document.title = title || 'My Slides'
+            })
+        }
+    },
+    mounted() {
+        const mc = new Hammer(this.$el)
+        const main = this.$refs.main
+        mc.on('swipe', event => {
+            if (event.pointerType === 'mouse') {
+                return
+            }
+            switch (event.direction) {
+                case Hammer.DIRECTION_LEFT:
+                    main.goNext()
+                    return
+                case Hammer.DIRECTION_RIGHT:
+                    main.goPrev()
+                    return
+            }
+        })
+    }
 }
 </script>
 

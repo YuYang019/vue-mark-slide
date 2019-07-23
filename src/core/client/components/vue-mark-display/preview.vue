@@ -8,7 +8,20 @@
 </template>
 
 <script>
+import { genMixinGlobalEvents } from './util'
+
+function previewEscHandler(event) {
+  const vm = this
+  if (event.keyCode === 27 && vm.visible) {
+    console.log('close')
+    vm.close()
+  }
+}
+
 export default {
+  mixins: [
+    genMixinGlobalEvents('keydown', previewEscHandler)
+  ],
   data() {
     return {
       visible: false,
@@ -26,6 +39,9 @@ export default {
       this.visible = true;
       this.url = url;
     });
+  },
+  mounted() {
+
   }
 };
 </script>
@@ -51,7 +67,8 @@ export default {
 .mark-display .preview-btn {
   position: absolute;
   right: 0;
-  top: -2em;
+  top: 0;
+  font-size: 20px !important;
 }
 .mark-display .preview-main {
   width: 100%;

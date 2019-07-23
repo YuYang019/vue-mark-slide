@@ -148,6 +148,7 @@ module.exports = {
 | autoFontSize  | 是否自动设置字体大小 | boolean / true |
 | supportPreview  | 是否开启URL链接预览功能（altKey + 点击） | boolean / true |
 | urlHashCtrl  | 当页面改变，是否更新 URL hash | boolean / true |
+| keyboardCtrl  | 是否开启快捷键控制（Arrows, Enter, Ctrl+G） | boolean / true |
 | markdown | 给定一个远程的markdown链接，可加载该文件 | function / null |
 
 
