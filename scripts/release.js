@@ -77,11 +77,15 @@ const release = async () => {
   await execa('npm', ['publish', '--tag', npmTag], { stdio: 'inherit' })
 
   // generate changelog and commit
-  await execa('npm', ['run', 'changelog'])
-  await execa('git', ['add', '.'], { stdio: 'inherit' })
-  await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
-    stdio: 'inherit'
-  })
+  try {
+    await execa('npm', ['run', 'changelog'])
+    await execa('git', ['add', '.'], { stdio: 'inherit' })
+    await execa('git', ['commit', '-m', `chore: ${version} changelog`], {
+      stdio: 'inherit'
+    })
+  } catch (e) {
+    process.exit(1)
+  }
 }
 
 release().catch(err => {
