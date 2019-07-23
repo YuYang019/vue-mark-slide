@@ -1,6 +1,6 @@
 /**
  * release 脚本
- * 发布新版本的时候，请保证这段时间有除了 chore 之外的 commit
+ * 发布新版本的时候，请保证这段时间有除了 chore 之外的 commit 并 push 到了主干上
  */
 
 const execa = require('execa')
